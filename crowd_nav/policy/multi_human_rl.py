@@ -34,6 +34,7 @@ class MultiHumanRL(CADRL):
             max_action = None
             for action in self.action_space:
                 next_self_state = self.propagate(state.self_state, action)
+                #if self.query_env, we use the ORCA motion model as state transition, otherwise propogate forward a constant velocity model
                 if self.query_env:
                     next_human_states, reward, done, info = self.env.onestep_lookahead(action)
                 else:
@@ -45,8 +46,8 @@ class MultiHumanRL(CADRL):
                 rotated_batch_input = self.rotate(batch_next_states).unsqueeze(0)
                 if self.with_om:
                     if occupancy_maps is None:
-                        occupancy_maps = self.build_occupancy_maps(next_human_states).unsqueeze(0)
-                    rotated_batch_input = torch.cat([rotated_batch_input, occupancy_maps.to(self.device)], dim=2)
+                        occupancy_maps = self.build_occupancy_maps(next_human_states).unsqueeze(0).to(self.device)
+                    rotated_batch_input = torch.cat([rotated_batch_input, occupancy_maps], dim=2)
                 # VALUE UPDATE
                 next_state_value = self.model(rotated_batch_input).data.item()
                 value = reward + pow(self.gamma, self.time_step * state.self_state.v_pref) * next_state_value
@@ -98,7 +99,7 @@ class MultiHumanRL(CADRL):
                                   for human_state in state.human_states], dim=0)
         if self.with_om:
             occupancy_maps = self.build_occupancy_maps(state.human_states)
-            state_tensor = torch.cat([self.rotate(state_tensor), occupancy_maps.to(self.device)], dim=1)
+            state_tensor = torch.cat([self.rotate(state_tensor), occupancy_maps], dim=1)
         else:
             state_tensor = self.rotate(state_tensor)
         return state_tensor
@@ -151,9 +152,9 @@ class MultiHumanRL(CADRL):
                             dm[2 * int(index)].append(other_vx[i])
                             dm[2 * int(index) + 1].append(other_vy[i])
                         elif self.om_channel_size == 3:
-                            dm[3 * int(index)].append(1)
-                            dm[3 * int(index) + 1].append(other_vx[i])
-                            dm[3 * int(index) + 2].append(other_vy[i])
+                            dm[2 * int(index)].append(1)
+                            dm[2 * int(index) + 1].append(other_vx[i])
+                            dm[2 * int(index) + 2].append(other_vy[i])
                         else:
                             raise NotImplementedError
                 for i, cell in enumerate(dm):

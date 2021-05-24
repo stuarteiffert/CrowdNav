@@ -1,0 +1,82 @@
+LM-SARL
+MCTS-GRNN
+
+PF
+
+simulated environmnet and test data
+
+
+where?
+    crowdNav?
+
+
+TODO:
+    remove uni step move?
+    ensure action space works well
+    ensure SEF works well
+    ensure distance thresh is set corect for radiuses etc
+    ensure exploring enough
+
+    IS cv PREDICTION BEING DONE WELL? perhaps focus more on more recent timesteps
+
+    r = linear + exp?
+
+    where does SARL point to? using ORCA or CV for tuture step? NOT USING RL see errros
+
+Paper updates:
+    1. PF better than reported, had set values incorrectly prior.
+    2. SARL value function compared using CV in paper as not relaitic that state transition is known. Check CrowdNav also did this I think.. Did not specify sorry. Results for CV and ORCA shown here. ORCA obvisouly better, but reflective of actual use? maybe not.
+    
+    3. d!=2, we instead used d=2-(radiuses) (or even less ?)
+    4. SEF is a piecewise linear approximation of reported function for X-R
+    5. MCTS CV version significantly slower due to non-optimised KF implementation each step, grows with agent size
+    6. Uncertainty not used with CV obviously
+    7. 500 sims not enough. Here are 10000
+    8. SARL rather than OM_SARL apparently used in my paper. have copmared use of pre-trained OM-SARL and not good results, 500 episodes here, will investigate why doesnt match CrowdNav paper.
+    9. To recreate figure 4 (circle and approaching examples) run as --comparecirc or --compareapproach
+
+python3 test.py --test_policy='mctscv' --output_dir='/home/stuart/code/CrowdNav/crowd_nav/data/outputs/nongridslow_cliff_2/' --save_fig --gpu --pred_model_dir='/home/stuart/acfr/code/sequence_prediction/models/ORCA/LSTM_2_64_timestep3_prob_1' #NONGRID-slower_cliff
+
+2021-05-13 17:40:03, INFO: TEST  has success rate: 0.98, collision rate: 0.00, nav time: 18.19, total reward: 0.1487, avg comp time: 0.5082, avg path len: 18.05
+2021-05-13 17:42:11, INFO: TEST  has success rate: 0.86, collision rate: 0.00, nav time: 18.12, total reward: 0.1337, avg comp time: 0.5072, avg path len: 18.73
+2021-05-13 17:40:02, INFO: TEST  has success rate: 0.90, collision rate: 0.00, nav time: 18.34, total reward: 0.1371, avg comp time: 0.4922, avg path len: 18.68
+
+
+
+Make CV more collisions less timeouts
+Make MCTS based on best of CV
+Make MCTS SEF2 as above to match required disturbance
+
+
+Test 1 : 10:50AM MOnday:
+    1. SARL planner using ORCA (sarlom_1)
+    2. SARL planner using ORCA (sarl_cv)
+    3. MCTS CV SEF1: obsctale threshold = 0.1 (nongridslow_cliff_010)
+    4. MCTS CV SEF1: obsctale threshold = 0.15 (nongridslow_cliff_015)
+    
+
+    Expect that 010 has more collisions, less timeouts than 015
+    SARL much better than prior testing, perhaps due to non-mixed? or non-stay on goal?
+
+Test 2 : 10:50AM MOnday:
+    As above, but mixed:
+    1. SARL planner using ORCA (sarl_mixed)
+    2. SARL planner using ORCA (sarl_cv_mixed)
+    3. MCTS CV SEF1: obsctale threshold = 0.1 (nongridslow_cliff_010_mixed)
+    4. MCTS CV SEF1: obsctale threshold = 0.15 (nongridslow_cliff_015_mixed)
+
+
+
+REsults1:
+    TEST  has success rate: 1.00, collision rate: 0.00, nav time: 18.40, total reward: 0.1489, avg comp time: 0.2937, avg path len: 17.91
+    TEST  has success rate: 1.00, collision rate: 0.00, nav time: 18.33, total reward: 0.1496, avg comp time: 0.2516, avg path len: 17.83
+    TEST  has success rate: 0.84, collision rate: 0.02, nav time: 19.31, total reward: 0.1137, avg comp time: 0.4784, avg path len: 19.57
+    TEST  has success rate: 0.80, collision rate: 0.01, nav time: 19.71, total reward: 0.1041, avg comp time: 0.4820, avg path len: 20.12
+
+Resdults2:
+    TEST  has success rate: 0.96, collision rate: 0.00, nav time: 17.41, total reward: 0.1592, avg comp time: 0.2998, avg path len: 17.02
+    TEST  has success rate: 0.97, collision rate: 0.00, nav time: 17.45, total reward: 0.1609, avg comp time: 0.2437, avg path len: 17.02
+    TEST  has success rate: 0.91, collision rate: 0.00, nav time: 17.92, total reward: 0.1468, avg comp time: 0.4882, avg path len: 18.13
+    TEST  has success rate: 0.89, collision rate: 0.01, nav time: 17.83, total reward: 0.1438, avg comp time: 0.4758, avg path len: 18.16
+
+#When actual knowledge of the state transition is known, (ie using ORCA to predict future state before applying Value function) SARL performs no better than when agent futures are propogated using just a constant velocity model.

@@ -57,7 +57,7 @@ class ORCA(Policy):
         self.trainable = False
         self.multiagent_training = None
         self.kinematics = 'holonomic'
-        self.safety_space = 0
+        self.safety_space = 0.1
         self.neighbor_dist = 10
         self.max_neighbors = 10
         self.time_horizon = 5

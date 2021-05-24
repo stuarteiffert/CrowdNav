@@ -113,6 +113,7 @@ def main():
         model.load_state_dict(torch.load(il_weight_file))
         logging.info('Load imitation learning trained weights.')
     else:
+        il_use_real_data = train_config.getboolean('imitation_learning', 'imitate_real_data')
         il_episodes = train_config.getint('imitation_learning', 'il_episodes')
         il_policy = train_config.get('imitation_learning', 'il_policy')
         il_epochs = train_config.getint('imitation_learning', 'il_epochs')
@@ -124,9 +125,11 @@ def main():
             safety_space = train_config.getfloat('imitation_learning', 'safety_space')
         il_policy = policy_factory[il_policy]()
         il_policy.multiagent_training = policy.multiagent_training
+        if il_use_real_data:
+            il_policy.multiagent_training = False
         il_policy.safety_space = safety_space
         robot.set_policy(il_policy)
-        explorer.run_k_episodes(il_episodes, 'train', update_memory=True, imitation_learning=True)
+        explorer.run_k_episodes(il_episodes, 'train', update_memory=True, imitation_learning=True, imitate_real_data=il_use_real_data)
         trainer.optimize_epoch(il_epochs)
         torch.save(model.state_dict(), il_weight_file)
         logging.info('Finish imitation learning. Weights saved.')

@@ -34,7 +34,8 @@ class Agent(object):
 
     def set_policy(self, policy):
         self.policy = policy
-        self.kinematics = policy.kinematics
+        if policy is not None:
+            self.kinematics = policy.kinematics
 
     def sample_random_attributes(self):
         """

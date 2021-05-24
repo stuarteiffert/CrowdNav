@@ -20,8 +20,9 @@ setup(
         'matplotlib',
         'numpy',
         'scipy',
-        'torch',
-        'torchvision',
+        'torch==0.4.0',
+        'torchvision==0.2.1',
+        'tensorflow==1.10.1',
     ],
     extras_require={
         'test': [

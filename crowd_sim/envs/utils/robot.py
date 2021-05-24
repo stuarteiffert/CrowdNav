@@ -1,6 +1,7 @@
 from crowd_sim.envs.utils.agent import Agent
 from crowd_sim.envs.utils.state import JointState
-
+import crowd_sim
+import crowd_nav
 
 class Robot(Agent):
     def __init__(self, config, section):

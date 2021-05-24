@@ -1,10 +1,55 @@
 # CrowdNav
-This repository contains the codes for our ICRA 2019 paper. For more details, please refer to the paper
+This repository contains the codes for our ICRA 2018 paper. For more details, please refer to the paper
 [Crowd-Robot Interaction: Crowd-aware Robot Navigation with Attention-based Deep Reinforcement Learning](https://arxiv.org/abs/1809.08835).
 
-Please find our more recent work on 
-- [Relational Graph Learning for Crowd Navigation](https://github.com/ChanganVR/RelationalGraphLearning).
-- [Social NCE: Contrastive Learning of Socially-aware Motion Representations](https://github.com/vita-epfl/social-nce).
+
+Updated by Stuart Eiffert:
+    Testing other methods in same simulated environment:
+        MCTS-RNN
+        PF
+        MCTS-CV
+    Instructructions:
+        1. Train an RNN prediction model
+        2. Train an RL policy
+        3. Test navigation via: cd crowd_nav & python3 test.py --test_policy='mctsrnn' --output_dir='/data/outputs/images' --save_fig --mixed --gpu
+
+        Set test variables in crowd_nav/config/env.configs
+
+        Use SEF2 in MCTS via use_sef2=True, set via --use_mcts_sef2 in test.py (Note: this will not work for MCTS-CV which does not predict any response) 
+
+Testing:
+
+python3 test.py --policy='sarl' --test_policy='sarl' --output_dir='/home/stuart/code/CrowdNav/crowd_nav/data/outputs/comp_test/' --save_fig --gpu --model_dir=data/output_02082019_cv
+
+
+Comparison:
+    test_policy='mctscv'
+    python test.py --test_policy=$test_policy --compare_scenarios --output_dir='/home/stuart/code/CrowdNav/crowd_nav/data/outputs/comp_test/' --save_fig --gpu --pred_model_dir='/home/stuart/acfr/code/sequence_prediction/models/ORCA/LSTM_2_64_timestep3_prob_1' 
+
+python3 test.py --policy='sarl' --test_policy='sarl' --compare_scenarios --output_dir='/home/stuart/code/CrowdNav/crowd_nav/data/outputs/comp_test/' --save_fig --gpu --model_dir=data/output_02082019_cv
+
+
+python3 test.py --test_policy='pf' --output_dir='/home/stuart/code/CrowdNav/crowd_nav/data/outputs/images/' --save_fig --mixed --gpu
+python3 test.py --test_policy='sarl' --output_dir='/home/stuart/code/CrowdNav/crowd_nav/data/outputs/images/' --save_fig --mixed --gpu
+python3 test.py --test_policy='mctscv' --output_dir='/home/stuart/code/CrowdNav/crowd_nav/data/outputs/images/' --save_fig --mixed --gpu
+python3 test.py --test_policy='mctsrnn' --output_dir='/home/stuart/code/CrowdNav/crowd_nav/data/outputs/images/' --pred_model_dir='/home/stuart/acfr/code/sequence_prediction/models/ORCA/LSTM_2_64_timestep3_prob_1' --save_fig --mixed --gpu
+
+## References
+
+Makes use of ORCA, SARL
+
+
+## Citation
+If using this repo, please consider citing:
+
+@INPROCEEDINGS{Eiffert2020,
+  author={S. {Eiffert} and H. {Kong} and N. {Pirmarzdashti} and S. {Sukkarieh}},
+  booktitle={2020 IEEE International Conference on Robotics and Automation (ICRA)}, 
+  title={Path Planning in Dynamic Environments using Generative RNNs and Monte Carlo Tree Search}, 
+  year={2020},
+  pages={10263-10269},
+  doi={10.1109/ICRA40945.2020.9196631}}
+
 
 ## Abstract
 Mobility in an effective and socially-compliant manner is an essential yet challenging task for robots operating in crowded spaces.
@@ -29,7 +74,7 @@ outperforming state-of-the-art methods.
 pip install -e .
 ```
 
-## Getting Started
+## Getting started
 This repository is organized in two parts: gym_crowd/ folder contains the simulation environment and
 crowd_nav/ folder contains codes for training and testing the policies. Details of the simulation framework can be found
 [here](crowd_sim/README.md). Below are the instructions for training and testing policies, and they should be executed
@@ -75,13 +120,11 @@ Learning curve comparison between different methods in an invisible setting.
 
 ## Citation
 If you find the codes or paper useful for your research, please cite our paper:
-```bibtex
-@inproceedings{chen2019crowd,
-  title={Crowd-robot interaction: Crowd-aware robot navigation with attention-based deep reinforcement learning},
-  author={Chen, Changan and Liu, Yuejiang and Kreiss, Sven and Alahi, Alexandre},
-  booktitle={2019 International Conference on Robotics and Automation (ICRA)},
-  pages={6015--6022},
-  year={2019},
-  organization={IEEE}
+```
+@misc{1809.08835,
+Author = {Changan Chen and Yuejiang Liu and Sven Kreiss and Alexandre Alahi},
+Title = {Crowd-Robot Interaction: Crowd-aware Robot Navigation with Attention-based Deep Reinforcement Learning},
+Year = {2018},
+Eprint = {arXiv:1809.08835},
 }
 ```
