@@ -21,19 +21,18 @@ Note that in order to reproduce the MCTS-GRNN SEF1 and SEF2 results shown in Tab
 ****
 ## Results
 
-
+<img src="figures/Fig4_ICRA_updated.png" width="1000" />
 
 Updated results for Table 1 of paper, based on per episode data, improved PF, and use of ORCA vs constant velocity in SARL.
 
-					Disturbance		
-Method	| Success %	| Coll % | Avg Len (m) | Avg Comp (s) |	Disturbance > 1 m/s^2 | > 0.5 m/s^2 | > 0.25 m/s^2
-:-----------:|:--------:|:------:|:-------:|:-------:|:-------:|:-------:|:-------:
-MCTS-RNN SEF1 | 98.20%	 | 0.40% | 	17.68 | 	0.3* | 	1.52% | 	6.81% | 	13.49%
-MCTS-RNN SEF2 | 91.80% | 0.00%	 | 18.3975 | 0.3* | 	1.08% | 	5.44% | 	10.75%
-MCTS-CV | 97.00%	 | 0.20%	 | 16.3845	0.3*	1.61%	 | 7.16%	 | 14.31%
-SARL | 95.40%	 | 0.00% | 	17.01	 | 0.251	 | 1.55%	 | 6.91%	 | 12.59%
-SARL-CV | 97.00% | 	0.00% | 	17.01	 | 0.15	 | 1.71%	 | 7.12%	 | 12.74%
-PF | 91.40%	 | 0.80%	 | 19.63	 | 0.01	 | 1.85%	 | 7.46%	 | 13.50%
+Method	| Success %	| Coll % | Avg Len (m) | Avg Comp (s) |	Disturbance > 1 m/s^2 | Disturbance > 0.5 m/s^2 | Disturbance > 0.25 m/s^2
+:--------------:|:--------:|:------:|:-------:|:-------:|:-------:|:-------:|:-------:
+MCTS-RNN SEF1 | **98.20%**	 | 0.40% | 	17.68 | 	0.3* | 	1.52% | 	6.81% | 	13.49%
+MCTS-RNN SEF2 | 91.80% | **0.00%**	 | 18.40 | 0.3* | 	**1.08%** | 	**5.44%** | 	**10.75%**
+MCTS-CV | 97.00%	 | 0.20%	 |  **16.38**  |	0.3*	| 1.61%	 | 7.16%	 | 14.31%
+SARL | 95.40%	 | **0.00%** | 	17.01	 | 0.251	 | 1.55%	 | 6.91%	 | 12.59%
+SARL-CV | 97.00% | 	**0.00%**  | 	17.01	 | 0.150	 | 1.71%	 | 7.12%	 | 12.74%
+PF | 91.40%	 | 0.80%	 | 19.63	 | **0.010**	 | 1.85%	 | 7.46%	 | 13.50%
 
 ****
 ## Usage
