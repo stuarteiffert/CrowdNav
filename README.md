@@ -41,9 +41,21 @@ PF | 91.40%	 | 0.80%	 | 19.63	 | **0.010**	 | 1.85%	 | 7.46%	 | 13.50%
 ## Usage
 
 ### Setup
-As per [[1]](https://github.com/vita-epfl/CrowdNav). Additionally, this repo requires tensorflow>=1.10.1 when using mctsrnn.
+Tested in Ubuntu 16.04 using python3.5.2 and cuda9.0
 
+Recommend installing in a python env:
+```
+python3 -m venv mctsgrnn
+source mctsgrnn/bin/activate
+```
 1. Install [Python-RVO2](https://github.com/sybrenstuvel/Python-RVO2) library
+```
+git clone https://github.com/sybrenstuvel/Python-RVO2.git
+pip install -r requirements.txt
+python setup.py build
+python setup.py install
+```
+
 2. Install crowd_sim and crowd_nav into pip. See setup.py for list of packages being installed
 ```
 pip install -e .
