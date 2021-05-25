@@ -13,7 +13,9 @@ Note that in order to reproduce the MCTS-GRNN SEF1 and SEF2 results shown in Tab
 
 * [2021.05.17] Per episode data reproduced and saved in \data directory, as original paper only saved summary data. Note that this data differs slightly from the original reported results, suggesting that significantly more than 500 episodes should be used in future for testing.
 
-* [2021.05.17] Note: SARL was used in the original paper rather than LM-SARL as original noted. New training of LM-SARL in 2021 has not resulted in a stable planner.
+* [2021.05.16] Reported average computation time per method reported in Table 1 found to not have included time required to convert data into required form for MCTS versions. This is approxiately 30ms for MCTS-GRNN and 120 ms for MCTS-CV, due to added need for creating kalman filter objects per tracked agent. Note that this time has not been optimised for this work.
+
+* [2021.05.16] Note: SARL was used in the original paper rather than LM-SARL as original noted. New training of LM-SARL in 2021 has not resulted in a stable planner.
 
 
 ****
@@ -23,30 +25,15 @@ Note that in order to reproduce the MCTS-GRNN SEF1 and SEF2 results shown in Tab
 
 Updated results for Table 1 of paper, based on per episode data, improved PF, and use of ORCA vs constant velocity in SARL.
 
-Planner     |Resolution|COCO mAP|Latency(ARM 4xCore)   | FLOPS      |Params | Model Size(ncnn fp16)
-:--------:|:--------:|:------:|:--------------------:|:----------:|:-----:|:-------:
-NanoDet-m | 320*320 |  20.6   | **10.23ms**          | **0.72B**  | **0.95M** | **1.8MB**
-NanoDet-m | 416*416 |  **23.5** | 16.44ms            | 1.2B       | **0.95M** | **1.8MB**
-NanoDet-g | 416*416 |  22.9   | Not Designed For ARM | 4.2B       | 3.81M     | 7.7MB
-YoloV3-Tiny| 416*416 | 16.6   | 37.6ms               | 5.62B      | 8.86M     | 33.7MB
-YoloV4-Tiny| 416*416 | 21.7   | 32.81ms              | 6.96B      | 6.06M     | 23.0MB
-Find      | more | models | in [Model Zoo](#model-zoo)|   -       |   -       |    -
-
-
-Updated by Stuart Eiffert:
-    Testing other methods in same simulated environment:
-        MCTS-RNN
-        PF
-        MCTS-CV
-    Instructructions:
-        1. Train an RNN prediction model
-        2. Train an RL policy
-        3. Test navigation via: cd crowd_nav & python3 test.py --test_policy='mctsrnn' --output_dir='/data/outputs/images' --save_fig --mixed --gpu
-
-        Set test variables in crowd_nav/config/env.configs
-
-        Use SEF2 in MCTS via use_sef2=True, set via --use_mcts_sef2 in test.py (Note: this will not work for MCTS-CV which does not predict any response) 
-
+					Disturbance		
+Method	| Success %	| Coll % | Avg Len (m) | Avg Comp (s) |	Disturbance > 1 m/s^2 | > 0.5 m/s^2 | > 0.25 m/s^2
+:-----------:|:--------:|:------:|:-------:|:-------:|:-------:|:-------:|:-------:
+MCTS-RNN SEF1 | 98.20%	 | 0.40% | 	17.68 | 	0.3* | 	1.52% | 	6.81% | 	13.49%
+MCTS-RNN SEF2 | 91.80% | 0.00%	 | 18.3975 | 0.3* | 	1.08% | 	5.44% | 	10.75%
+MCTS-CV | 97.00%	 | 0.20%	 | 16.3845	0.3*	1.61%	 | 7.16%	 | 14.31%
+SARL | 95.40%	 | 0.00% | 	17.01	 | 0.251	 | 1.55%	 | 6.91%	 | 12.59%
+SARL-CV | 97.00% | 	0.00% | 	17.01	 | 0.15	 | 1.71%	 | 7.12%	 | 12.74%
+PF | 91.40%	 | 0.80%	 | 19.63	 | 0.01	 | 1.85%	 | 7.46%	 | 13.50%
 
 ****
 ## Usage
