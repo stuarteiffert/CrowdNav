@@ -8,7 +8,7 @@ This repository builds upon the simulated environment developed by [[1]](https:/
 ****
 ## Updates
 
-* [2021.05.23] SRLSTM (ref) [[2]](https://github.com/zhangpur/SR-LSTM) compared to the generative RNN model used within this work in terms of ability to model the response of an agent to a robot's planned action (Ref TBD). SRLSTM found to allow significantly better modelling of response and will be integrated in future work.
+* [2021.05.23] Our recent work has shown that SRLSTM [[2]](https://github.com/zhangpur/SR-LSTM) allows for significantly better response prediction than the generative RNN approach evaluated in this work. SRLSTM will be and will be integrated with the MCTS planner in future work. This work is ongoing with preliminary results available at [Comparing-Crowd-Response-Prediction](https://github.com/stuarteiffert/Comparing-Crowd-Response-Prediction)
 
 * [2021.05.18] Errors in the original potential field (PF) planner implementation fixed. Results are now significantly better, updated in data directory.
 
