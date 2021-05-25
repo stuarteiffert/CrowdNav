@@ -78,11 +78,11 @@ python test.py --policy='sarl' --gpu --model_dir=../models/rl/sarl_orca
 python test.py --policy='pf' 
 ```
 
-For SARL with ORCA state transition: saved_rl_model_dir=data/sarl_orca
+For SARL with ORCA state transition: saved_rl_model_dir=models/rl/sarl_orca
 
-For SARL with CV state transition: saved_rl_model_dir=data/sarl_cv
+For SARL with CV state transition: saved_rl_model_dir=models/rl/sarl_cv
 
-For LM-SARL with ORCA state transition: saved_rl_model_dir=data/sarl_lm_orca
+For LM-SARL with ORCA state transition: saved_rl_model_dir=models/rl/sarl_lm_orca
 
 Edit testing configuration via file pointed to by --env_config
 
