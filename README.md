@@ -1,9 +1,10 @@
 # MCTS-GRNN
-This repository supplements the ICRA 2020 paper [Path Planning in Dynamic Environments using Generative RNNs and Monte Carlo Tree Search](https://arxiv.org/abs/2001.11597).
+This material supplements the ICRA 2020 paper [Path Planning in Dynamic Environments using Generative RNNs and Monte Carlo Tree Search](https://arxiv.org/abs/2001.11597).
 
 Included within this repository is the code required to reproduce simulated planning results, and the resultant data from these simulations.
 Note that in order to reproduce the MCTS-GRNN SEF1 and SEF2 results shown in Table 1 of the paper a trained RNN model is required. This model has not been provided in this repository.
 
+This repository builds upon the simulated environment developed by [[1]](https://github.com/vita-epfl/CrowdNav).
 ****
 ## Updates
 
@@ -15,7 +16,9 @@ Note that in order to reproduce the MCTS-GRNN SEF1 and SEF2 results shown in Tab
 
 * [2021.05.16] Reported average computation time per method reported in Table 1 found to not have included time required to convert data into required form for MCTS versions. This is approxiately 30ms for MCTS-GRNN and 120 ms for MCTS-CV, due to added need for creating kalman filter objects per tracked agent. Note that this time has not been optimised for this work.
 
-* [2021.05.16] Note: SARL was used in the original paper rather than LM-SARL as original noted. New training of LM-SARL in 2021 has not resulted in a stable planner.
+* [2021.05.16] The implemented state evaluation functions used in MCTS differ from equations 3 and 4 in the paper. The actual implementation uses a piecewise linear approximation for alpha, as described in crowd_nav/policy/predictive_planner/mcts_par.State.update_reward()
+
+* [2021.05.16] SARL was used in the original paper rather than LM-SARL as original noted. New training of LM-SARL in 2021 has not resulted in a stable planner. Additionally, SARL has now ben compared when using ORCA to propogate future states, versus simply using a constant velocity model for each agent. All illustrated results use the ORCA version. Interestingly, when actual knowledge of the state transition is known, (ie using ORCA to predict future state before applying Value function) SARL performs no better than when agent futures are propogated using just a constant velocity model.
 
 
 ****
@@ -53,21 +56,30 @@ If using 'sarl', provide model_dir of trained RL policy. See /models. Additional
 
 Example usage:
 
+```
 python test.py --policy='mctscv' 
 python test.py --policy='mctsrnn' --gpu --pred_model_dir=$saved_rnn_model_dir
 python test.py --policy='sarl' --gpu --model_dir=$saved_rl_model_dir
 python test.py --policy='pf' 
+```
 
 For SARL with ORCA state transition: saved_rl_model_dir=data/sarl_orca
+
 For SARL with CV state transition: saved_rl_model_dir=data/sarl_cv
+
 For LM-SARL with ORCA state transition: saved_rl_model_dir=data/sarl_lm_orca
+
 Edit testing configuration via file pointed to by --env_config
 
 Options:
---output_dir: Save results of each episode to given directory
---save_fig:  Save resultant trajectories as png (requires output_dir set)
---interactive: Allow interaction with the orca environmnet in a GUI.
---comparison:  Compare behaviour in set scenarios
+
+    --output_dir: Save results of each episode to given directory
+
+    --save_fig:  Save resultant trajectories as png (requires output_dir set)
+
+    --interactive: Allow interaction with the orca environmnet in a GUI.
+
+    --comparison:  Compare behaviour in set scenarios
 
 
 ### Training
@@ -83,6 +95,11 @@ Generative RNN trained as per ... in tensorflow 1.10.1
 
 Makes use of ORCA, SARL.
 See SARL repo for more info on simulated environmnet
+
+[[1] C. Chen, Y. Liu, S. Kreiss, and A. Alahi, “Crowd-Robot Interaction: Crowd-aware Robot Navigation with Attention-based Deep Reinforcement Learning,” IEEE International Conference on Robotics and Automation (ICRA), pp. 6015 – 6022, 2019.](https://github.com/vita-epfl/CrowdNav)
+
+[[2] P. Zhang, W. Ouyang, P. Zhang, J. Xue, and N. Zheng, “SR-LSTM: State Refinement for LSTM towards Pedestrian Trajectory Prediction,” in CVPR, 2019.](https://github.com/zhangpur/SR-LSTM)
+
 
 
 ## Citation
