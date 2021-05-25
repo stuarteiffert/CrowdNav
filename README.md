@@ -8,7 +8,7 @@ This repository builds upon the simulated environment developed by [[1]](https:/
 ****
 ## Updates
 
-* [2021.05.23] SRLSTM (ref) compared to the generative RNN model used within this work in terms of ability to model the response of an agent to a robot's planned action (Ref TBD). SRLSTM found to allow significantly better modelling of response and will be integrated in future work.
+* [2021.05.23] SRLSTM (ref) [[2]](https://github.com/zhangpur/SR-LSTM) compared to the generative RNN model used within this work in terms of ability to model the response of an agent to a robot's planned action (Ref TBD). SRLSTM found to allow significantly better modelling of response and will be integrated in future work.
 
 * [2021.05.18] Errors in the original potential field (PF) planner implementation fixed. Results are now significantly better, updated in data directory.
 
@@ -41,6 +41,8 @@ PF | 91.40%	 | 0.80%	 | 19.63	 | **0.010**	 | 1.85%	 | 7.46%	 | 13.50%
 ## Usage
 
 ### Setup
+As per [[1]](https://github.com/vita-epfl/CrowdNav). Additionally, this repo requires tensorflow>=1.10.1 when using mctsrnn.
+
 1. Install [Python-RVO2](https://github.com/sybrenstuvel/Python-RVO2) library
 2. Install crowd_sim and crowd_nav into pip. See setup.py for list of packages being installed
 ```
@@ -52,14 +54,15 @@ pip install -e .
 Default testing uses config from /crowd_nav/config/env.config. 
 Default is 500 mixed test cases.
 Policy should be one of ['mctsrnn', 'mctscv', 'pf', 'sarl', 'orca']
-If using 'sarl', provide model_dir of trained RL policy. See /models. Additionally, ensure that the environmnet config in the policy config file matches the test config.
+If using 'sarl', provide model_dir of trained RL policy. See /models. Additionally, ensure that the environment config in the policy config file matches the test config.
 
 Example usage:
 
 ```
+cd crowd_nav
 python test.py --policy='mctscv' 
-python test.py --policy='mctsrnn' --gpu --pred_model_dir=$saved_rnn_model_dir
-python test.py --policy='sarl' --gpu --model_dir=$saved_rl_model_dir
+python test.py --policy='mctsrnn' --gpu --pred_model_dir=../models/rnn/grnn_orca_lookahead1 #Note this model is not included in this repo
+python test.py --policy='sarl' --gpu --model_dir=../models/rl/sarl_orca
 python test.py --policy='pf' 
 ```
 
@@ -84,17 +87,15 @@ Options:
 
 ### Training
 
-SARL trained as per (ref):
+SARL trained as per [[1]](https://github.com/vita-epfl/CrowdNav):
 ```
 python train.py --policy sarl
 ```
 
-Generative RNN trained as per ... in tensorflow 1.10.1
+The generative RNN was trained as per description in Eiffert et al. on the dataset of generated ORCA trajectories. This model is trained using tensorflow 1.10.1. 
 
 ## References
 
-Makes use of ORCA, SARL.
-See SARL repo for more info on simulated environmnet
 
 [[1] C. Chen, Y. Liu, S. Kreiss, and A. Alahi, “Crowd-Robot Interaction: Crowd-aware Robot Navigation with Attention-based Deep Reinforcement Learning,” IEEE International Conference on Robotics and Automation (ICRA), pp. 6015 – 6022, 2019.](https://github.com/vita-epfl/CrowdNav)
 
