@@ -23,6 +23,7 @@ setup(
         'torch==0.4.0',
         'torchvision==0.2.1',
         'tensorflow==1.10.1',
+        'tk',
     ],
     extras_require={
         'test': [
