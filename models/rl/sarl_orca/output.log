@@ -1,0 +1,11 @@
+2019-08-26 16:05:38, INFO: Current git head hash code: %s 
+2019-08-26 16:05:38, INFO: Using device: cpu
+2019-08-26 16:05:38, INFO: Policy: SARL w/ global state
+2019-08-26 16:05:38, INFO: human number: 5
+2019-08-26 16:05:38, INFO: Not randomize human's radius and preferred speed
+2019-08-26 16:05:38, INFO: Training simulation: circle_crossing, test simulation: square_crossing
+2019-08-26 16:05:38, INFO: Square width: 18.0, circle width: 8.0
+2019-08-26 16:05:38, INFO: Load imitation learning trained weights.
+2019-08-26 16:05:38, INFO: Agent is visible and has holonomic kinematic constraint
+2019-08-26 16:05:38, INFO: Current learning rate: 0.001000
+2019-08-26 16:05:40, INFO: Test 1 of 100. Result: Reaching goal
