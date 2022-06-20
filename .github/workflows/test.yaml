@@ -1,0 +1,25 @@
+name: test
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/force_pipeline_run'      
+       
+jobs:
+  pull-test:
+    runs-on: ubuntu-latest
+    env:
+      REPO_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}        
+    steps:
+      - uses: iterative/setup-cml@v1
+      - uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}              
+      - name: setup CVAT    
+        run: |                
+          python -m pip install --upgrade pip      
+          git clone https://github.com/openvinotoolkit/cvat.git
+          cd cvat/utils/cli    
+          pip install -r requirements.txt
+          echo "test"
